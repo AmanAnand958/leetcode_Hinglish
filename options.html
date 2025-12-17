@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #667eea;
+      margin-top: 0;
+    }
+    .settings-section {
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: bold;
+    }
+    input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    input[type="password"]:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+    .help-text {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn-save {
+      background: #667eea;
+      color: white;
+      flex: 1;
+    }
+    .btn-save:hover {
+      background: #5568d3;
+    }
+    .btn-clear {
+      background: #f0f0f0;
+      color: #333;
+      flex: 1;
+    }
+    .btn-clear:hover {
+      background: #e0e0e0;
+    }
+    .status {
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ Hinglish Translator Settings</h1>
+    
+    <div id="status" class="status"></div>
+    
+    <div class="settings-section">
+      <label for="apiKey">API Key (Gemini or Routeway)</label>
+      <input type="password" id="apiKey" placeholder="Enter your API key">
+      <div class="help-text">
+        <strong>Option 1: Google Gemini (Free)</strong>
+        <br>Get from <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>
+        <br>Format: Starts with "AIza"
+        <br><br>
+        <strong>Option 2: Routeway Free DeepSeek (FREE & UNLIMITED)</strong>
+        <br>Get from <a href="https://routeway.ai/" target="_blank">Routeway.ai</a>
+        <br>Format: Starts with "sk-"
+        <br>Model: deepseek-v3.1-terminus:free (no balance needed!)
+        <br><br>
+        Your API key is stored securely in Chrome's sync storage.
+      </div>
+    </div>
+    
+    <div class="button-group">
+      <button class="btn-save" id="saveBtn">Save Settings</button>
+      <button class="btn-clear" id="clearBtn">Clear Key</button>
+    </div>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>

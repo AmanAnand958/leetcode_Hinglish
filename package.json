@@ -1,0 +1,16 @@
+{
+  "name": "hinglish-extension",
+  "version": "1.0.0",
+  "description": "A Chrome extension that automatically translates LeetCode problem descriptions and examples from English to Hinglish (Hindi written in Roman/Latin script) using Google's Gemini API.",
+  "main": "options.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "openai": "^6.13.0"
+  }
+}
