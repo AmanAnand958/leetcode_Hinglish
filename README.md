@@ -1,139 +1,261 @@
-# LeetCode to Hinglish Translator
+# LeetCode Hinglish Translator 🔤
 
-A Chrome extension that automatically translates LeetCode problem descriptions and examples from English to Hinglish (Hindi written in Roman/Latin script) using Google's Gemini API.
+A Chrome extension that translates LeetCode problem descriptions from English to Hinglish (Hindi + English mix) with a single click!
 
-## Features
+## ✨ Features
 
-- 🔤 Converts LeetCode problem descriptions to Hinglish
-- 📚 Translates problem examples automatically
-- ⚡ Caches translations for faster loading on revisits (7-day expiry)
-- 🎛️ Toggle extension on/off from popup
-- 🔒 Securely stores your Gemini API key
-- 🚀 Uses free Gemini API tier
+- 🎯 **One-Click Translation**: Draggable translate button on every problem
+- ⚡ **Parallel API Racing**: Uses both Routeway and OpenRouter simultaneously for fastest response
+- � **Toggle Languages**: Switch between English and Hinglish instantly
+- 💾 **Smart Caching**: Translations cached for 7 days (instant on revisit)
+- 🖼️ **Preserves Everything**: Images, code blocks, lists, and formatting stay intact
+- 🎨 **Native Look**: Maintains LeetCode's original styling
+- 🔁 **Auto-Retry**: 3 automatic retries with exponential backoff
+- 🆓 **Completely Free**: Uses free API tiers
 
-## Installation
+## 🚀 Quick Start
 
-### Prerequisites
+### Installation
 
-1. A Google account with access to [Google AI Studio](https://makersuite.google.com/)
-2. A free Gemini API key
+1. **Download the Extension**
 
-### Steps
+   ```bash
+   git clone https://github.com/AmanAnand958/leetcode_Hinglish.git
+   cd leetcode_Hinglish
+   ```
 
-1. **Get your Gemini API Key**
-   - Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-   - Click "Create API Key"
-   - Copy your API key
+2. **Load in Chrome**
 
-2. **Load the Extension**
    - Open Chrome and go to `chrome://extensions/`
-   - Enable "Developer mode" (toggle in top-right corner)
+   - Enable "Developer mode" (top-right toggle)
    - Click "Load unpacked"
-   - Select this folder (`/Users/amananand/Desktop/hinglish extension`)
+   - Select the extension folder
 
-3. **Configure the Extension**
-   - Click the extension icon in your Chrome toolbar
-   - Click "⚙️ API Key Settings"
-   - Paste your Gemini API key
-   - Click "Save Settings"
+3. **Start Using**
+   - Visit any LeetCode problem
+   - Click the "🔤 Translate to Hinglish" button
+   - Click "🔙 Translate back to English" to restore
 
-4. **Start Using**
-   - Navigate to any LeetCode problem
-   - The extension will automatically translate the problem description and examples to Hinglish
-   - Use the popup toggle to enable/disable translations
+**That's it!** No API key setup needed - it works out of the box! 🎉
 
-## How It Works
+## 🎮 Usage
 
-1. **Content Script** (`src/content.js`): Monitors LeetCode pages for problem content
-2. **Translation Request**: Sends problem text to the background service worker
-3. **API Call** (`src/background.js`): Calls Gemini API with translation prompt
-4. **Caching**: Results are cached locally for 7 days
-5. **DOM Update**: Translated text replaces original content while preserving HTML structure
+### Basic Usage
 
-## File Structure
+1. Navigate to any LeetCode problem
+2. Look for the floating translate button (bottom-right)
+3. Click to translate to Hinglish
+4. Click again to restore English
+
+### Advanced Features
+
+- **Drag the Button**: Click and drag to reposition anywhere on screen
+- **Toggle Extension**: Use the popup to enable/disable
+- **Clear Cache**: Click "Clear Cache" in popup to get fresh translations
+
+## 🏗️ How It Works
 
 ```
-hinglish extension/
+User clicks "Translate"
+         ↓
+    ┌────┴────┐
+    ↓         ↓
+Routeway   OpenRouter
+(DeepSeek) (DeepSeek R1)
+    ↓         ↓
+    └────┬────┘
+         ↓
+   First to respond wins!
+         ↓
+   Cache for 7 days
+         ↓
+   Display translation
+```
+
+### Technical Details
+
+- **Parallel API Racing**: Both APIs called simultaneously
+- **Automatic Retry**: 3 attempts with 2s, 4s delays
+- **Smart Caching**: Stores translations in `chrome.storage.local`
+- **HTML Preservation**: Extracts and preserves full HTML structure
+- **Image Handling**: Saves and re-inserts images after translation
+
+## 📁 File Structure
+
+```
+leetcode_Hinglish/
 ├── manifest.json          # Extension configuration
 ├── popup.html            # Extension popup UI
-├── popup.js              # Popup functionality
+├── popup.js              # Popup logic
 ├── options.html          # Settings page
-├── options.js            # Settings functionality
+├── options.js            # Settings logic
 ├── src/
-│   ├── background.js     # Service worker (API calls, caching)
-│   ├── content.js        # Content script (DOM manipulation)
-│   └── utils.js          # Utility functions
-└── assets/               # Icons directory
+│   ├── background.js     # API calls, caching, retry logic
+│   ├── content.js        # DOM manipulation, button, translation
+│   └── utils.js          # Helper functions
+└── assets/
+    ├── icon16.png        # Extension icons
+    ├── icon48.png
+    └── icon128.png
 ```
 
-## API Usage
+## 🔧 Configuration
 
-- **Free Tier Limits**: ~60 requests/minute
-- **Cache Duration**: 7 days
-- **Text Limit**: 3000 characters per request
+### API Keys (Pre-configured)
 
-## Troubleshooting
+The extension comes with default API keys:
 
-### Extension not translating?
-- Ensure "Developer mode" is enabled in `chrome://extensions/`
-- Verify your Gemini API key is correct in settings
-- Try refreshing the LeetCode page
-- Check that you have internet connection
+- **Routeway**: DeepSeek V3.1 (free tier)
+- **OpenRouter**: DeepSeek R1 (free tier)
 
-### "API key not set" error
-- Click the extension icon → "⚙️ API Key Settings"
-- Enter your Gemini API key from Google AI Studio
-- Click "Save Settings"
+### Custom API Keys (Optional)
 
-### Translation not appearing?
-- The translation may take 5-10 seconds to appear
-- Check your API key is valid
-- Verify rate limits haven't been exceeded (max ~60 requests/minute)
-- Try disabling and re-enabling the extension
+To use your own keys:
 
-## API Key Security
+1. Click extension icon → "⚙️ API Key Settings"
+2. Enter your Routeway API key
+3. Click "Save Settings"
 
-- Your API key is stored in `chrome.storage.sync` (encrypted by Chrome)
-- The key is never shared or logged
-- Only sent to Google's Gemini API for translation
-- You can clear it anytime from settings
+Get free API keys:
 
-## Performance Notes
+- Routeway: https://api.routeway.ai
+- OpenRouter: https://openrouter.ai
 
-- First translation of a problem: 5-10 seconds
-- Cached translations: Instant
-- Translations are cached per problem for 7 days
-- Large problems may take longer to translate
+## ⚙️ Settings
 
-## Development
+### Cache Management
 
-To modify the extension:
+- **Duration**: 7 days
+- **Clear Cache**: Popup → "Clear Cache" button
+- **Auto-Clear**: On URL change (new problem)
+
+### Translation Control
+
+- **Enable/Disable**: Toggle in popup
+- **Manual Trigger**: Click translate button
+- **Restore Original**: Click "Translate back to English"
+
+## 🐛 Troubleshooting
+
+### Translation not working?
+
+1. Check internet connection
+2. Reload the extension at `chrome://extensions/`
+3. Clear cache and try again
+4. Check console for errors (F12 → Console)
+
+### Button not appearing?
+
+1. Refresh the LeetCode page
+2. Ensure extension is enabled in popup
+3. Check if you're on a problem page (not problem list)
+
+### Translation cut off?
+
+- Increased token limit to 8000 (handles longest problems)
+- If still cut off, clear cache and retry
+
+### Images missing?
+
+- Should be preserved automatically
+- If missing, report as bug with problem URL
+
+## 🎯 Performance
+
+| Metric             | Value       |
+| ------------------ | ----------- |
+| First Translation  | 2-5 seconds |
+| Cached Translation | Instant     |
+| Cache Duration     | 7 days      |
+| Max Token Limit    | 8000 tokens |
+| Retry Attempts     | 3 times     |
+| API Timeout        | 60 seconds  |
+
+## 🔒 Privacy & Security
+
+- ✅ No data collection
+- ✅ No tracking
+- ✅ API keys stored locally (encrypted by Chrome)
+- ✅ Translations cached locally
+- ✅ No external servers (except translation APIs)
+
+## 🛠️ Development
+
+### Making Changes
 
 1. Edit files in the extension folder
 2. Go to `chrome://extensions/`
-3. Click the refresh icon on the extension
-4. Reload LeetCode page to see changes
+3. Click refresh icon on the extension
+4. Reload LeetCode page
 
-## Future Enhancements
+### Testing
 
-- [ ] Support for other languages
-- [ ] Custom translation prompts/styles
+```bash
+# Test Routeway API
+node test-deepseek-free.js
+
+# Test OpenRouter API
+node test-openrouter.js
+```
+
+### Key Functions
+
+- `attemptTranslation()`: Main translation logic
+- `extractTextWithStructure()`: Extracts HTML from problem
+- `simpleTextReplace()`: Replaces content with translation
+- `restoreOriginalContent()`: Restores English version
+
+## 📊 API Details
+
+### Routeway (Primary)
+
+- **Model**: DeepSeek V3.1 Terminus
+- **Endpoint**: `api.routeway.ai/v1/chat/completions`
+- **Rate Limit**: Free tier
+- **Max Tokens**: 8000
+
+### OpenRouter (Fallback)
+
+- **Model**: DeepSeek R1 0528
+- **Endpoint**: `openrouter.ai/api/v1/chat/completions`
+- **Rate Limit**: Free tier
+- **Max Tokens**: 8000
+
+## 🚧 Known Issues
+
+- None currently! 🎉
+
+## 🔮 Future Enhancements
+
+- [ ] Support for other languages (Spanish, French, etc.)
+- [ ] Keyboard shortcuts (Ctrl+T to translate)
+- [ ] Translation quality rating
+- [ ] Custom translation styles
 - [ ] Batch translation for multiple problems
 - [ ] Statistics dashboard
-- [ ] Translation quality feedback
-- [ ] Keyboard shortcuts for quick toggle
 
-## Support
+## 📝 License
 
-For issues or feature requests, please check:
-- Gemini API quota in [Google AI Studio](https://makersuite.google.com/)
-- Chrome console (right-click → Inspect → Console tab) for errors
-- Verify LeetCode page is fully loaded before triggering translation
+MIT License - Free to use and modify
 
-## License
+## 🤝 Contributing
 
-This extension is provided as-is for personal use.
+Contributions welcome! Feel free to:
+
+- Report bugs
+- Suggest features
+- Submit pull requests
+
+## 📧 Support
+
+For issues or questions:
+
+- Open an issue on GitHub
+- Check Chrome console for errors
+- Ensure you're on latest version
 
 ---
 
-**Note**: This extension requires an active internet connection and valid Gemini API key to function.
+**Made with ❤️ for LeetCode learners who prefer Hinglish**
+
+**Note**: This extension requires an active internet connection to translate new problems.
